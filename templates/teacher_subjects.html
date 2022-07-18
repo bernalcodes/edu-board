@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Teacher Subjects
+{% endblock %}
+
+{% block main %}
+    <form action="/subjects" method="post">
+        <div class="form-group">
+            <select name="subject_id" class="form-select mb-3" aria-label="Default select example">
+                <option value="" selected disabled>Select a subject</option>
+                {% for d in data %}
+                    <option value="{{ d['id'] }}" >{{ d['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input name="data" type="hidden" value="{{ data }}"></input>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Review subject</button>
+        </div>
+    </form>
+    {% if activities %}
+        <table class="table table-striped table-hover m-0">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Subject</th>
+                    <th class="text-center" scope="col">Activity ID</th>
+                    <th class="text-center" scope="col">Activity</th>
+                    <th class="text-center" scope="col">Description</th>
+                    <th class="text-center" scope="col">Due date</th>                    
+                    <th class="text-center" scope="col">Options</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in activities %}
+                    <tr>
+                        <td class="text-center" scope="col">{{ a['name'] }}</td>
+                        <td class="text-center" scope="col">{{ a['activities.id'] }}</td>
+                        <td class="text-center" scope="col">{{ a['title'] }}</td>
+                        <td class="text-center" scope="col">{{ a['description'] }}</td>
+                        <td class="text-center" scope="col">{{ a['due_date'] }}</td>
+                        <td class="text-center" scope="col">
+                            <form action="/grades" method="post">
+                                <div class="form-group">
+                                    <input class="form-control" type="hidden" name="subject_id" value="{{ a['subjects.id'] }}">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="hidden" name="activity_id" value="{{ a['activities.id'] }}">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Activity details</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

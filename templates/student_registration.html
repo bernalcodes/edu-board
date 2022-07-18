@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Registration
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Subject</th>
+                <th class="text-center" scope="col">Teacher</th>
+                <th class="text-center" scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+                <tr>
+                    <td class="text-center" scope="col">{{ d['name'] }}</td>
+                    <td class="text-center" scope="col">
+                        {% if d['id'] == 1 %}
+                            N / A 
+                        {% else %}
+                            {{ d['fullname'] }}
+                        {% endif %}
+                    </td>
+                    <td class="text-center" scope="col">
+                        <form action="/registration" method="post">
+                            <div class="form-group">
+                                <input class="form-control" name="subject_id" type="hidden" value="{{ d['subjects.id'] }}">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Register</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,14 @@
+Biology,4
+Chemistry,4
+Physics,4
+Satitistics,5
+Algebra,5
+Geometry,5
+Calculus,6
+Oral languages,6
+Humanities,6
+Literature,7
+Composition,9
+History,11
+Geography,13
+Economics,15

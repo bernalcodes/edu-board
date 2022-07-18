@@ -1,0 +1,17 @@
+body
+{
+    background: #FFEFBA;
+    background: -webkit-linear-gradient(to right, #FFFFFF, #FFEFBA);
+    background: linear-gradient(to right, #FFFFFF, #FFEFBA);
+}
+
+strong
+{
+    font-weight: bold;
+}
+
+/* Modifying nav bar */
+.navbar
+{
+    height: 100px;
+}

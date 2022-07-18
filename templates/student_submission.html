@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Submission
+{% endblock %}
+
+{% block main %}
+    <div class="card card-body">
+        <p>Submission page for the selected activity.</p>
+        <table class="table table-striped table-hover m-0">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Student ID</th>
+                    <th class="text-center" scope="col">Student</th>
+                    <th class="text-center" scope="col">Submitted</th>
+                    <th class="text-center" scope="col">Grade</th>
+                    <th class="text-center" scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if students %}
+                    {% for s in students %}
+                        <tr>
+                            <td class="text-center" scope="col">{{ s['id'] }}</td>
+                            <td class="text-center" scope="col">{{ s['fullname'] }}</td>
+                            {% if s['submitted'] == 0 %}
+                                <td class="text-center">
+                                    <button class="btn btn-danger" disabled>
+                                        NOT SUBMITTED
+                                    </button>
+                                </td>
+                                <td class="text-center">{{ s['grade'] }}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-primary" disabled>
+                                        Grade
+                                    </button>
+                                </td>
+                            {% else %}
+                                <td class="text-center">
+                                    <button class="btn btn-success" disabled>
+                                        SUBMITTED
+                                    </button>
+                                </td>
+                                <form action="/grades" method="post">
+                                    <div class="form-group">
+                                        <input type="hidden" name="activity_id" value={{ activity_id }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="student_id" value={{ s['id'] }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <td class="text-center">
+                                            <input type="number" step=".01" min="0" name="activity_grade" placeholder={{ s['grade'] }}>
+                                        </td>
+                                    </div>
+                                    <div class="form-group">
+                                        <td>
+                                            <button class="btn btn-primary" type="submit">
+                                                Grade
+                                            </button>
+                                        </td>
+                                    </div>
+                                </form>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

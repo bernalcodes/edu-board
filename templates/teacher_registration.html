@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Teacher Registration
+{% endblock %}
+
+{% block main %}    
+    {% if subjects %}
+        <div class="container mb-5">
+            <h2 class="mb-2">Select a new subject for you to teach</h2>
+        </div>
+        <h5 class="text-secondary mt-2">These are the current existing subjects</h5>
+        <div class="container mt-4">
+            <table class="table table-responsive table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Subject ID</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Teacher</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in subjects %}
+                        <tr>
+                            <th scope="row">{{ s['id'] }}</th>
+                            <td>{{ s['name'] }}</td>
+                            <td>
+                                {% if s['fullname'] != 'Juan Bernal' %}
+                                    {{ s['fullname'] }}
+                                {% else %}
+                                    N / A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if s['teacher_id'] != 1 %}
+                                    <button class="btn btn-danger" disabled>ASSIGNED</button>
+                                {% else %}
+                                    <form action="/registration" method="post">
+                                        <div class="form-group">
+                                            <input class="form-control" type="hidden" name="subject_id" value="{{ s['id'] }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-success" type="submit">ASSIGN</button>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    {% else %}
+        <h5 class="text-secondary mt-2">There aren't subjects created at the moment. Please contact an administrator.</h5>
+    {% endif %}
+{% endblock %}

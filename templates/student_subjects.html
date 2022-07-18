@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Subjects
+{% endblock %}
+
+{% block main %}
+    <form action="/subjects" method="post">
+        <div class="form-group">
+            <select name="subject_id" class="form-select mb-3" aria-label="Default select example">
+                <option value="" selected disabled>Select a subject</option>
+                {% for d in data %}
+                    <option value="{{ d['id'] }}" >{{ d['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input name="data" type="hidden" value="{{ data }}"></input>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Review subject</button>
+        </div>
+    </form>
+    {% if subject %}
+        <table class="table table-striped table-hover m-0">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">Subject</th>
+                    <th class="text-center" scope="col">Teacher</th>
+                    <th class="text-center" scope="col">Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center" scope="col">{{ subject['name'] }}</td>
+                    <td class="text-center" scope="col">{{ subject['fullname'] }}</td>
+                    <td class="text-center" scope="col">{{ subject['grade'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <hr>
+
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              Subject details
+            </a>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <p>Take a look at the activities assigned to this subject and your grades for each one.</p>
+              <table class="table table-striped table-hover m-0">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">Activity</th>
+                        <th class="text-center" scope="col">Description</th>
+                        <th class="text-center" scope="col">Teacher</th>
+                        <th class="text-center" scope="col">Due date</th>
+                        <th class="text-center" scope="col">Submitted</th>
+                        <th class="text-center" scope="col">Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in activities %}
+                        <tr>
+                            <td class="text-center" scope="col">{{ a['title'] }}</td>
+                            <td class="text-center" scope="col">{{ a['description'] }}</td>
+                            <td class="text-center" scope="col">{{ subject['fullname'] }}</td>
+                            <td class="text-center" scope="col">{{ a['due_date'] }}</td>
+                            {% if a['submitted'] == 0 %}
+                                <form action="/submit" method="post">
+                                    <div class="form-group">
+                                        <input class="form-control" type="hidden" name="subject_id" value={{ subject['id'] }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="hidden" name="activity_id" value={{ a['id'] }}>
+                                    </div>
+                                    <div class="form-group">
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" type="submit">
+                                                Submit
+                                            </button>
+                                        </td>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <td>
+                                    <button class="btn btn-sm btn-success">Submitted</button>
+                                </td>
+                            {% endif %}
+                            <td class="text-center" scope="col">{{ a['grade'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+          </div>
+    {% endif %}
+{% endblock %}
